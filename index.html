@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>GISSE ONLINE — Suscripciones Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,300;1,400;1,500&family=Righteous&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* FONDO TOTAL FUCSIA VIBRANTE PREMIUM */
+  --bg:#D11D75;
+  --brand:#FFFFFF;--brand2:#FF8CBA;--coral:#FF6B6B;--sky:#FFF0F5;--sun:#FFD043;--mint:#00DCA1;
+  --bg2:#FFFFFF;--card:rgba(255,255,255,.14);
+  --border:rgba(255,255,255,.2);--border2:rgba(255,255,255,.4);
+  --txt:#FFFFFF;--txt2:#FFEAF4;--txt3:#FFA6D2;
+  --wa:#25D366;--wa2:#128C7E;
+  --r:20px;--r2:14px;--sh:0 12px 30px rgba(0,0,0,.08);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+[data-theme="dark"]{
+  --bg:#4A0024;--bg2:#210010;--card:rgba(255,140,186,.1);
+  --border:rgba(255,140,186,.15);--border2:rgba(255,140,186,.3);
+  --txt:#FFEBF5;--txt2:#D4A3BF;--txt3:#A06B88;
+  --sh:0 12px 32px rgba(0,0,0,.5);
+}
+[data-theme="dark"] body{background:var(--bg)}
+[data-theme="dark"] nav{background:rgba(33,0,16,.85)}
+[data-theme="dark"] .opt{background:rgba(0,0,0,.2);border-color:var(--border);color:var(--txt)}
+[data-theme="dark"] .cat-f{background:rgba(0,0,0,.2);border-color:var(--border);color:var(--txt2)}
+[data-theme="dark"] .bar-in{background:#2D0016;color:#fff}
+[data-theme="dark"] .disc-modal-inner{background:#2D0016;color:#fff}
+[data-theme="dark"] .disc-input{background:rgba(0,0,0,.2);color:#fff}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased;letter-spacing:-0.1px;}
+
+/* FLORES DECORATIVAS FIJAS POR TODA LA PÁGINA */
+.flower-overlay {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+  filter: blur(0.4px);
+  transition: opacity 0.3s;
+}
+.fl-1 { top: 10%; left: -40px; width: 140px; height: 140px; transform: rotate(12deg); }
+.fl-2 { top: 32%; right: -50px; width: 180px; height: 180px; transform: rotate(-20deg); }
+.fl-3 { top: 58%; left: -30px; width: 130px; height: 130px; transform: rotate(45deg); }
+.fl-4 { top: 78%; right: -40px; width: 160px; height: 160px; transform: rotate(-15deg); }
+.fl-5 { bottom: 8%; left: -20px; width: 120px; height: 120px; transform: rotate(30deg); }
+
+.bg-blob{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(140px);opacity:.15;}
+.blob1{width:600px;height:600px;background:#FF1493;top:-100px;right:-150px}
+.blob2{width:500px;height:500px;background:#8B008B;bottom:-100px;left:-150px}
+
+.ticker{position:fixed;top:0;left:0;right:0;z-index:1000;height:28px;overflow:hidden;display:flex;align-items:center;background:linear-gradient(90deg, #FF69B4, #C71585);}
+.ticker-track{display:flex;white-space:nowrap;animation:tickScroll 45s linear infinite;}
+.ticker-track span{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#fff;padding-right:56px;}
+@keyframes tickScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+nav{position:fixed;top:28px;left:0;right:0;z-index:999;height:64px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(209,29,117,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s;}
+.nav-brand{display:flex;align-items:center;gap:6px;font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:20px;color:#FFFFFF;text-decoration:none;letter-spacing:0.5px;}
+.nav-mark{font-family:'Inter',sans-serif;font-style:normal;font-weight:700;color:var(--sun);font-size:16px;}
+.nav-wa{display:flex;align-items:center;gap:6px;padding:0 16px;height:38px;border-radius:100px;background:var(--wa);color:#fff;font-size:12.5px;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(37,211,102,.2);transition:transform .18s;white-space:nowrap;}
+.nav-wa:active{transform:scale(.95)}
+.btn-theme,.btn-disc{width:38px;height:38px;border-radius:12px;border:1.5px solid var(--border);background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all .2s;color:#FFFFFF;position:relative;}
+.btn-theme:hover,.btn-disc:hover{background:rgba(255,255,255,.25);transform:scale(1.03)}
+.btn-disc.active-code{border-color:var(--mint);background:rgba(0,199,140,.2);color:var(--mint);}
+.disc-dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--mint);border:2px solid #D11D75;}
+
+/* MODAL */
+.disc-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px);}
+.disc-overlay.open{opacity:1;pointer-events:all}
+.disc-modal-inner{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:26px 22px;width:100%;max-width:330px;box-shadow:var(--sh);transform:translateY(15px);transition:transform .3s var(--ease);color:#3A1227;}
+.disc-overlay.open .disc-modal-inner{transform:none}
+.disc-title{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:#3A1227;margin-bottom:6px;font-weight:400;}
+.disc-sub{font-size:13px;color:#75455F;margin-bottom:18px;line-height:1.5}
+.disc-row{display:flex;gap:8px;margin-bottom:12px}
+.disc-input{flex:1;padding:11px 14px;border-radius:12px;border:1.5px solid rgba(0,0,0,.08);background:#FFF5F8;font-family:inherit;font-size:13.5px;color:#3A1227;outline:none;text-transform:uppercase;letter-spacing:1.5px;}
+.disc-apply{padding:0 18px;height:44px;border-radius:12px;background:linear-gradient(135deg,#D11D75,#FF8CBA);color:#fff;border:none;font-size:12.5px;font-weight:600;text-transform:uppercase;cursor:pointer;}
+
+.disc-banner{display:none;align-items:center;gap:10px;background:rgba(0,220,161,.15);border:1.5px solid var(--mint);border-radius:14px;padding:12px 16px;margin-bottom:16px;font-size:13px;font-weight:500;color:#FFFFFF;font-family:'Playfair Display',serif;font-style:italic;}
+.disc-banner.show{display:flex}
+.disc-banner-pct{font-family:'Inter',sans-serif;font-style:normal;font-size:16px;font-weight:700;margin-left:auto;color:var(--sun);}
+
+.page{position:relative;z-index:1;max-width:540px;margin:0 auto;padding:0 20px}
+
+/* HERO */
+.hero{padding:110px 0 28px;text-align:center}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1.5px solid var(--border);border-radius:100px;padding:5px 14px;font-size:11px;font-weight:500;color:#FFFFFF;letter-spacing:.3px;margin-bottom:18px;}
+.hero-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--mint);animation:dotBeat 1.6s ease-in-out infinite;}
+@keyframes dotBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+.hero-brand{font-family:'Playfair Display',serif;font-size:clamp(52px,15vw,88px);line-height:.95;margin-bottom:14px;animation:fadeUp .6s .12s both;}
+.hero-brand .m1{color:#FFFFFF;font-weight:300;}
+.hero-brand .m2{font-style:italic;color:var(--txt2);font-weight:300;display:block;font-size:0.95em;margin-top:2px;}
+.hero-sub-line{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(20px,5vw,25px);font-weight:400;color:var(--sun);margin-bottom:14px;animation:fadeUp .6s .2s both;}
+.hero-desc{font-size:13.5px;color:var(--txt2);line-height:1.6;margin-bottom:24px;animation:fadeUp .6s .28s both;font-weight:300;}
+
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;animation:fadeUp .6s .36s both;}
+.hstat{background:rgba(255,255,255,.1);border:1.5px solid var(--border);border-radius:var(--r2);padding:14px 8px;text-align:center;backdrop-filter:blur(5px);}
+.hstat-n{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;font-weight:300;color:#FFFFFF;display:block;}
+.hstat-l{font-size:9px;font-weight:600;color:var(--txt2);letter-spacing:0.8px;text-transform:uppercase;margin-top:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.hero-actions{margin-top:24px;animation:fadeUp .6s .44s both}
+.btn-catalog{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#3A1227;border:none;border-radius:100px;padding:14px 28px;font-size:13.5px;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 6px 20px rgba(255,208,67,.25);transition:transform .18s;}
+.btn-catalog:hover{transform:translateY(-1px)}
+
+.divider{height:1px;background:var(--border);margin:24px 0}
+
+/* CURSIVAS FINAS Y DELICADAS EN TÍTULOS */
+.sec-t{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:18px;color:var(--sun);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.sec-t::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.trust-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-bottom:24px;}
+.trust-row::-webkit-scrollbar{display:none}
+.tpill{flex:0 0 auto;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1.5px solid var(--border);border-radius:100px;padding:6.5px 12px;font-size:11px;font-weight:500;color:#FFFFFF;backdrop-filter:blur(5px);}
+.tpill .live{width:5px;height:5px;border-radius:50%;background:var(--mint);animation:dotBeat 1.6s ease-in-out infinite;}
+
+/* TARJETAS CON INTENSIDAD ROSA TRASLÚCIDA FUSIONADA */
+.wa-card, .rev, .metric, .step, .why-card, .contact-section, .svc, .faq {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FFFFFF;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.wa-card-hdr{background:rgba(255,255,255,.08);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;color:#fff;border-bottom:1px solid var(--border);}
+.wa-info{display:flex;align-items:center;gap:8px}
+.wa-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:#fff;background:#D11D75;flex-shrink:0;}
+.wa-nm{font-size:12.5px;font-weight:600;color:#fff}
+.wa-loc{font-size:10px;color:var(--txt2);margin-top:1px}
+.wa-online{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--sun);font-weight:600;}
+.wa-online-dot{width:4px;height:4px;border-radius:50%;background:var(--sun);animation:dotBeat 1.6s ease-in-out infinite}
+.wa-body{padding:14px 16px;min-height:84px;background:transparent}
+.wa-bubble{background:rgba(255,255,255,.1);border:1.5px solid var(--border);padding:12px 14px;border-radius:6px 16px 16px 16px;font-size:13.5px;line-height:1.5;color:#fff;max-width:92%;font-weight:400;}
+
+.rev-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;margin-bottom:24px;}
+.rev-strip::-webkit-scrollbar{display:none}
+.rev{flex:0 0 210px;padding:14px;margin-bottom:0;}
+.rev-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.rev-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;color:#fff;}
+.rev-nm{font-size:12.5px;font-weight:600;color:#fff}
+.rev-loc{font-size:10px;color:var(--txt2)}
+.rev-stars{font-size:10px;color:var(--sun);letter-spacing:0.5px;margin-bottom:5px}
+.rev-txt{font-size:12.5px;color:var(--txt2);line-height:1.5;font-weight:400;}
+.rev-badge{display:inline-flex;align-items:center;gap:3px;margin-top:8px;background:rgba(255,255,255,.1);border:1px solid var(--border);color:#fff;padding:2px 8px;border-radius:100px;font-size:9px;font-weight:500;}
+
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;}
+.metric{padding:14px;display:flex;align-items:center;gap:10px;margin-bottom:0;}
+.metric-icon{font-size:22px;}
+.metric-val{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--sun);font-weight:400;line-height:1;}
+.metric-lbl{font-size:9px;font-weight:500;color:var(--txt2);letter-spacing:0.3px;text-transform:uppercase;margin-top:3px}
+
+.steps{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.step{display:flex;align-items:flex-start;gap:14px;padding:16px;margin-bottom:0;}
+.step-num{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:16px;color:#fff;}
+.step-title{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;font-weight:400;color:var(--sun);margin-bottom:3px}
+.step-desc{font-size:12.5px;color:var(--txt2);line-height:1.5;font-weight:400;}
+
+.garantia-banner{background:linear-gradient(135deg,#C71585 0%,#FF69B4 100%);border-radius:var(--r);padding:22px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--sh);border:1.5px solid rgba(255,255,255,.15);}
+.garantia-banner::before{content:'🌸';position:absolute;right:-15px;bottom:-15px;font-size:90px;opacity:.12;line-height:1}
+.garantia-title{font-size:20px;font-weight:600;color:var(--sun);margin-bottom:4px}
+.garantia-sub{font-size:12.5px;opacity:.95;font-weight:400;}
+.garantia-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.garantia-list li{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:400}
+.garantia-list li::before{content:'✦';color:var(--sun);font-size:12px;flex-shrink:0}
+.garantia-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;background:#fff;color:#C71585;border:none;border-radius:100px;padding:10px 20px;font-size:12.5px;font-weight:600;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.08);}
+
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.why-card{padding:16px 12px;text-align:center;margin-bottom:0;}
+.why-emoji{font-size:24px;display:block;margin-bottom:6px}
+.why-title{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;font-weight:400;color:var(--sun);margin-bottom:3px}
+.why-desc{font-size:11px;color:var(--txt2);line-height:1.5;font-weight:400;}
+
+.cta-mid{background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:var(--r);padding:22px 18px;text-align:center;margin-bottom:24px;}
+.cta-mid-title{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:#FFFFFF;margin-bottom:4px;font-weight:400;}
+.cta-mid-sub{font-size:12.5px;color:var(--txt2);margin-bottom:14px;line-height:1.5}
+.cta-mid-btn{display:inline-flex;align-items:center;gap:6px;background:var(--wa);color:#fff;border:none;border-radius:100px;padding:12px 26px;font-size:13.5px;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(37,211,102,.25);}
+
+.contact-section{padding:20px 16px;}
+.contact-title{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--sun);margin-bottom:4px;font-weight:400;}
+.contact-sub{font-size:12.5px;color:var(--txt2);margin-bottom:16px;line-height:1.5}
+.contact-options{display:flex;flex-direction:column;gap:8px}
+.contact-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r2);border:1.5px solid var(--border);background:rgba(255,255,255,.08);text-decoration:none;color:#fff;transition:transform .2s;}
+.contact-opt:hover{transform:translateX(3px)}
+.contact-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.contact-opt-title{font-size:13.5px;font-weight:600;margin-bottom:2px}
+.contact-opt-sub{font-size:11px;color:var(--txt2)}
+
+/* ARTE DE TARJETAS DE PLATAFORMAS (INTENSIDAD ROSA FUSIONADA) */
+.svcs{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.svc{margin-bottom:0;transition:all .2s;}
+.svc.on{border-color:var(--sun);box-shadow:0 6px 24px rgba(255,208,67,.15);}
+.svc-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px 0}
+.svc-nm{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;font-weight:400;color:#FFFFFF;display:flex;align-items:center;gap:4px}
+.svc-desc{font-size:11.5px;color:var(--txt2);margin-top:1px;font-weight:400}
+.svc-logo-box{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.svc-logo-txt{font-family:'Righteous',sans-serif;font-weight:900;color:#fff;}
+.svc-opts{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px}
+
+/* OPCIONES DE COMPRA CON FONDO ROSA INTEGRADO */
+.opt{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);background:rgba(255,255,255,.06);cursor:pointer;font-family:inherit;color:#FFFFFF;transition:all .2s var(--ease);}
+.opt.on{border-color:var(--sun);background:#FFFFFF;color:#3A1227}
+.opt-plan{font-size:12.5px;font-weight:600;}
+.opt-sub{font-size:10px;color:var(--txt2);margin-top:1px;font-weight:400;}
+.opt.on .opt-sub{color:#75455F}
+.opt-r{display:flex;align-items:center;gap:6px;}
+.opt-price-orig{font-size:11px;font-weight:500;color:var(--txt3);text-decoration:line-through;}
+.opt.on .opt-price-orig{color:#B5839F}
+.opt-price{font-size:17.5px;font-weight:700}
+.opt-chk{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700;transform:scale(0);transition:transform .2s;}
+.opt.on .opt-chk{transform:scale(1)}
+
+.cat-filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-bottom:16px;}
+.cat-filters::-webkit-scrollbar{display:none}
+.cat-f{flex:0 0 auto;padding:8px 16px;border-radius:100px;border:1.5px solid var(--border);background:rgba(255,255,255,.12);color:#FFFFFF;font-family:inherit;font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap;}
+.cat-f.active{background:#FFFFFF;color:#D11D75;border-color:transparent;box-shadow:var(--sh);font-weight:600;}
+
+.faq-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.faq{margin-bottom:0;}
+.faq.open{border-color:var(--sun)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:none;border:none;color:#FFFFFF;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left;gap:10px;}
+.faq-ico{width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.1);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;transition:all .25s;}
+.faq.open .faq-ico{background:var(--sun);border-color:transparent;color:#3A1227;transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}
+.faq.open .faq-a{max-height:220px}
+.faq-a-txt{padding:0 14px 14px;font-size:12.5px;color:var(--txt2);line-height:1.6;font-weight:400;}
+
+#bar{position:fixed;bottom:0;left:0;right:0;z-index:2000;padding:10px 16px 24px;transform:translateY(115%);transition:transform .4s var(--ease);}
+#bar.show{transform:translateY(0)}
+.bar-in{background:#fff;border:2px solid #FF8CBA;border-radius:22px;padding:16px;box-shadow:0 -10px 40px rgba(0,0,0,.15);color:#3A1227;}
+.bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.bar-lbl{font-size:10px;font-weight:600;color:#75455F;letter-spacing:0.5px;text-transform:uppercase}
+.bar-clr{font-size:11.5px;color:var(--coral);cursor:pointer;font-weight:600}
+.bar-items{max-height:85px;overflow-y:auto;scrollbar-width:none;margin-bottom:10px}
+.bar-items::-webkit-scrollbar{display:none}
+.bar-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.04);font-size:12.5px;}
+.bar-nm{color:#501E38;font-weight:500;font-family:'Playfair Display',serif;font-style:italic;}
+.bar-pr{font-weight:700;color:#3A1227}
+.bar-foot{display:flex;align-items:center;gap:12px}
+.tot-wrap{flex:1}
+.tot-lbl{font-size:9px;font-weight:500;color:#75455F;letter-spacing:0.5px;text-transform:uppercase}
+.tot-val{font-family:'Playfair Display',serif;font-style:italic;font-size:32px;color:#D11D75;line-height:1;font-weight:500;}
+.btn-order{display:flex;align-items:center;gap:6px;background:var(--wa);color:#fff;border:none;border-radius:14px;padding:0 18px;height:48px;font-size:13.5px;font-weight:600;cursor:pointer;}
+
+#waf{position:fixed;right:16px;bottom:24px;z-index:1999;width:52px;height:52px;border-radius:16px;background:var(--wa);display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.3);animation:waBounce 3s ease-in-out infinite;transition:opacity .3s;}
+#waf.hide{opacity:0;pointer-events:none}
+@keyframes waBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.footer{padding:32px 0 160px;text-align:center;border-top:1px solid var(--border);position:relative;z-index:1;}
+.foot-brand{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:#FFFFFF;margin-bottom:8px;display:block;}
+.foot-txt{font-size:11.5px;color:var(--txt2);line-height:2;font-weight:400;}
+.foot-wa{color:var(--sun);font-weight:600;text-decoration:none;}
+
+.rv{opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+.rv.in{opacity:1;transform:none}
+
+@media(min-width:640px){
+  .page{max-width:1000px}
+  .hero-brand{font-size:88px}
+  .svcs{display:grid;grid-template-columns:repeat(2,1fr)}
+  .metrics{grid-template-columns:repeat(4,1fr)}
+  #bar{left:auto;right:20px;width:390px;bottom:20px;padding:0}
+  #waf{display:none}
+  .hero-stats{grid-template-columns:repeat(4,1fr)}
+  .why-grid{grid-template-columns:repeat(4,1fr)}
+  .steps::before{display:none}
+}
+@media(min-width:1024px){
+  .svcs{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG FLORES CON POSICIÓN FIXED -->
+<svg class="flower-overlay fl-1" viewBox="0 0 100 100" fill="none"><path d="M50 20C45 35 35 45 20 50C35 55 45 65 50 80C55 65 65 55 80 50C65 45 55 35 50 20Z" fill="url(#flowerGrad)"/><circle cx="50" cy="50" r="8" fill="#FFD043"/><defs><linearGradient id="flowerGrad" x1="20" y1="20" x2="80" y2="80"><stop offset="0%" stop-color="#FFF0F5"/><stop offset="100%" stop-color="#FF69B4"/></linearGradient></defs></svg>
+<svg class="flower-overlay fl-2" viewBox="0 0 100 100" fill="none"><path d="M50 15C42 32 32 42 15 50C32 58 42 68 50 85C58 68 68 58 85 50C68 42 58 32 50 15Z" fill="url(#flowerGrad2)"/><circle cx="50" cy="50" r="7" fill="#FFF"/><defs><linearGradient id="flowerGrad2" x1="15" y1="15" x2="85" y2="85"><stop offset="0%" stop-color="#FFB6D9"/><stop offset="100%" stop-color="#FF1493"/></linearGradient></defs></svg>
+<svg class="flower-overlay fl-3" viewBox="0 0 100 100" fill="none"><path d="M50 25C46 38 38 46 25 50C38 54 46 62 50 75C54 62 62 54 75 50C62 46 54 38 50 25Z" fill="url(#flowerGrad)"/><circle cx="50" cy="50" r="6" fill="#FFD043"/></svg>
+<svg class="flower-overlay fl-4" viewBox="0 0 100 100" fill="none"><path d="M50 10C40 30 30 40 10 50C30 60 40 70 50 90C60 70 70 60 90 50C70 40 60 30 50 10Z" fill="url(#flowerGrad2)"/><circle cx="50" cy="50" r="9" fill="#FFF"/></svg>
+<svg class="flower-overlay fl-5" viewBox="0 0 100 100" fill="none"><path d="M50 20C45 35 35 45 20 50C35 55 45 65 50 80C55 65 65 55 80 50C65 45 55 35 50 20Z" fill="url(#flowerGrad)"/><circle cx="50" cy="50" r="7" fill="#FFD043"/></svg>
+
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+
+<div class="ticker"><div class="ticker-track" id="ticker"></div></div>
+
+<nav>
+  <a class="nav-brand" href="#">
+    <span class="nav-mark">✦</span> Gisse Online
+  </a>
+  <div style="display:flex;align-items:center;gap:8px">
+    <button class="btn-disc" id="disc-btn" onclick="openDisc()" title="Código de descuento">
+      %
+      <div class="disc-dot" id="disc-dot"></div>
+    </button>
+    <button class="btn-theme" id="theme-btn" onclick="toggleTheme()" title="Modo oscuro">🌙</button>
+    <a class="nav-wa" href="https://wa.me/5492644650239">
+      Escribinos 🌸
+    </a>
+  </div>
+</nav>
+
+<!-- MODAL DESCUENTO -->
+<div class="disc-overlay" id="disc-overlay" onclick="handleOverlay(event)">
+  <div class="disc-modal-inner">
+    <div class="disc-title">🏷️ Código especial</div>
+    <div class="disc-sub">Ingresá tu cupón para actualizar el catálogo con tu beneficio.</div>
+    <div class="disc-row">
+      <input class="disc-input" id="disc-input" type="text" placeholder="CÓDIGO" maxlength="20"
+        oninput="this.value=this.value.toUpperCase()"
+        onkeydown="if(event.key==='Enter')applyDisc()">
+      <button class="disc-apply" onclick="applyDisc()">Aplicar</button>
+    </div>
+    <div class="disc-msg" id="disc-msg"></div>
+    <div class="disc-active-row" id="disc-active-row">
+      <span class="disc-active-lbl" id="disc-active-lbl"></span>
+      <span class="disc-remove" onclick="removeDisc()">Quitar ×</span>
+    </div>
+    <button class="disc-close" onclick="closeDisc()">Cerrar</button>
+  </div>
+</div>
+
+<a href="https://wa.me/5492644650239" id="waf">💬</a>
+
+<div class="page">
+
+  <section class="hero">
+    <div class="hero-pill"><span class="dot"></span>+150 cuentas activas en Argentina</div>
+    <div class="hero-brand">
+      <span class="m1">Gisse</span>
+      <span class="m2">Online</span>
+    </div>
+    <div class="hero-sub-line">Suscripciones Premium</div>
+    <p class="hero-desc">Tus plataformas favoritas de streaming, música y diseño en un solo lugar.<br>Entrega inmediata · Soporte continuo · Cuentas estables.</p>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-n" id="s1">0+</span><div class="hstat-l">Clientes</div></div>
+      <div class="hstat"><span class="hstat-n" id="s2">0</span><div class="hstat-l">Apps</div></div>
+      <div class="hstat"><span class="hstat-n" id="s3">0%</span><div class="hstat-l">Garantía</div></div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn-catalog" href="#catalogo">
+        <span>🎬</span> Explorar el catálogo completo
+      </a>
+    </div>
+  </section>
+
+  <div class="divider rv"></div>
+
+  <div class="trust-row rv">
+    <div class="tpill"><span class="live"></span>Atendiendo online</div>
+    <div class="tpill">✨ Activación rápida</div>
+    <div class="tpill">🔐 Cuentas seguras</div>
+    <div class="tpill">🎀 Renovación simple</div>
+  </div>
+
+  <div class="rv">
+    <div class="sec-t">Últimos pedidos</div>
+    <div class="wa-card">
+      <div class="wa-card-hdr" id="wa-hdr"></div>
+      <div class="wa-body" id="wa-body"></div>
+      <div class="wa-dots" id="wa-dots"></div>
+    </div>
+  </div>
+
+  <div class="rv">
+    <div class="sec-t">Experiencias de nuestra comunidad</div>
+    <div class="rev-strip" id="revs"></div>
+  </div>
+
+  <div class="rv">
+    <div class="sec-t">Tu experiencia premium</div>
+    <div class="metrics">
+      <div class="metric"><span class="metric-icon">⚡</span><div><div class="metric-val">5min</div><div class="metric-lbl">Entrega</div></div></div>
+      <div class="metric"><span class="metric-icon">💖</span><div><div class="metric-val">4.9</div><div class="metric-lbl">Valoración</div></div></div>
+      <div class="metric"><span class="metric-icon">🔄</span><div><div class="metric-val">98%</div><div class="metric-lbl">Clientes fijas</div></div></div>
+      <div class="metric"><span class="metric-icon">💌</span><div><div class="metric-val">24/7</div><div class="metric-lbl">Asistencia</div></div></div>
+    </div>
+  </div>
+
+  <div class="rv">
+    <div class="sec-t">Cómo adquirir tu cuenta</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:linear-gradient(135deg,#D11D75,#FF8CBA)">1</div>
+        <div><div class="step-title">Elegís tus servicios</div><div class="step-desc">Marcá las pantallas o aplicaciones que quieras del catálogo. Podés armar los combos que te gusten en el mismo carrito.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:linear-gradient(135deg,#0050B3,#FF8CBA)">2</div>
+        <div><div class="step-title">Nos escribís por WhatsApp</div><div class="step-desc">Al tocar el botón de pedido, se abrirá tu WhatsApp con el mensaje listo. Nos llega el detalle de lo que elegiste automáticamente.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:linear-gradient(135deg,#FFB100,#FF6B6B)">3</div>
+        <div><div class="step-title">Realizá el pago</div><div class="step-desc">Te enviamos los datos al instante. Aceptamos MercadoPago, transferencias bancarias y depósitos de manera directa.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:linear-gradient(135deg,#00DCA1,#0050B3)">4</div>
+        <div><div class="step-title">¡Disfrutás del servicio!</div><div class="step-desc">Te pasamos los accesos listos en unos minutos por privado y te brindamos soporte continuo durante todo el mes.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rv">
+    <div class="sec-t">¿Por qué elegirnos?</div>
+    <div class="why-grid">
+      <div class="why-card"><span class="why-emoji">🌸</span><div class="why-title">Atención dulce</div><div class="why-desc">Te guiamos paso a paso de forma clara y amable.</div></div>
+      <div class="why-card"><span class="why-emoji">✨</span><div class="why-title">Cuentas estables</div><div class="why-desc">Sin caídas molestas, perfiles totalmente limpios.</div></div>
+      <div class="why-card"><span class="why-emoji">💸</span><div class="why-title">Precios fijos</div><div class="why-desc">Ahorrás todos los meses sin sorpresas ni impuestos extra.</div></div>
+      <div class="why-card"><span class="why-emoji">🎀</span><div class="why-title">Renovación fácil</div><div class="why-desc">Conservás el mismo perfil mes a mes si lo deseás.</div></div>
+      <div class="why-card"><span class="why-emoji">📱</span><div class="why-title">Multidispositivo</div><div class="why-desc">Disfrutá en tu Smart TV, celular, tablet o notebook.</div></div>
+      <div class="why-card"><span class="why-emoji">🛡️</span><div class="why-title">Garantía real</div><div class="why-desc">Ante cualquier duda, te resolvemos el problema en el día.</div></div>
+    </div>
+  </div>
+
+  <div class="cta-mid rv">
+    <span class="cta-mid-icon">🍿</span>
+    <div class="cta-mid-title">¿Buscás algo a medida?</div>
+    <div class="cta-mid-sub">Si tenés dudas o preferís consultar de forma directa, escribinos ahora mismo.</div>
+    <a class="cta-mid-btn" href="https://wa.me/5492644650239">
+      Escribinos directamente por privado
+    </a>
+  </div>
+
+  <div class="garantia-banner rv">
+    <div class="garantia-title">Respaldo Total</div>
+    <div class="garantia-sub">Comprás con absoluta tranquilidad y confianza.</div>
+    <ul class="garantia-list">
+      <li>Reponemos el servicio de inmediato ante cualquier eventualidad</li>
+      <li>Garantía de reembolso si surge un problema que no podamos solucionar</li>
+      <li>Atención cálida y rápida por WhatsApp todos los días</li>
+    </ul>
+    <a class="garantia-btn" href="https://wa.me/5492644650239">Hacer una pregunta técnica</a>
+  </div>
+
+  <div class="contact-section rv">
+    <div class="contact-title">¿Hablamos? 👋</div>
+    <div class="contact-sub">Estamos online para ayudarte a configurar tus accesos o resolver tus dudas rápido.</div>
+    <div class="contact-options">
+      <a class="contact-opt" href="https://wa.me/5492644650239">
+        <div class="contact-icon" style="background:#eefaf2">💬</div>
+        <div><div class="contact-opt-title">WhatsApp Privado</div><div class="contact-opt-sub">Atención directa · Respuesta inmediata</div></div>
+      </a>
+      <a class="contact-opt" href="https://wa.me/5492644650239?text=Hola%21%20Quiero%20consultar%20por%20combos%20disponibles">
+        <div class="contact-icon" style="background:#fff0f5">🎁</div>
+        <div><div class="contact-opt-title">Promociones y Combos</div><div class="contact-opt-sub">Consultá precios llevando dos o más servicios juntos</div></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- CATÁLOGO -->
+  <div id="catalogo" class="rv">
+    <div class="sec-t">Catálogo Premium</div>
+
+    <div class="disc-banner" id="disc-banner">
+      <span>✦</span>
+      <span id="disc-banner-txt" style="flex:1"></span>
+      <span class="disc-banner-pct" id="disc-banner-pct"></span>
+    </div>
+
+    <div class="cat-filters">
+      <button class="cat-f active" onclick="filterCat('all',this)">Todos los servicios</button>
+      <button class="cat-f" onclick="filterCat('streaming',this)">🎬 Cine & Series</button>
+      <button class="cat-f" onclick="filterCat('musica',this)">🎵 Música</button>
+      <button class="cat-f" onclick="filterCat('ia',this)">🤖 IA & Diseño</button>
+      <button class="cat-f" onclick="filterCat('anime',this)">⛩️ Anime</button>
+    </div>
+
+    <div class="svcs" id="svcs"></div>
+  </div>
+
+  <div class="rv">
+    <div class="sec-t">Preguntas comunes</div>
+    <div class="faq-list" id="faqs"></div>
+  </div>
+
+  <div class="footer rv">
+    <span class="foot-brand">Gisse Online</span>
+    <div class="foot-txt">
+      Suscripciones Digitales Estables · Argentina 🇦🇷<br>
+      <a class="foot-wa" href="https://wa.me/5492644650239">+54 9 264 465-0239</a><br>
+      <span style="opacity:.6">© 2026 GISSE ONLINE · Todos los derechos reservados</span>
+    </div>
+  </div>
+</div>
+
+<div id="bar">
+  <div class="bar-in">
+    <div class="bar-top">
+      <span class="bar-lbl">Tus aplicaciones</span>
+      <span class="bar-clr" onclick="clearAll()">Limpiar ×</span>
+    </div>
+    <div class="bar-items" id="bar-items"></div>
+    <div class="bar-foot">
+      <div class="tot-wrap">
+        <div class="tot-lbl">Total mensual</div>
+        <div class="tot-val" id="tot">$0</div>
+      </div>
+      <button class="btn-order" onclick="sendWA()">
+        Enviar pedido por WhatsApp 🌸
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CODES = {
+  'PROMO10': { pct: 10 }
+};
+
+let activeDiscount = null;
+
+function openDisc(){
+  document.getElementById('disc-overlay').classList.add('open');
+  document.getElementById('disc-msg').textContent='';
+  document.getElementById('disc-msg').className='disc-msg';
+  if(activeDiscount){
+    document.getElementById('disc-active-row').classList.add('show');
+    document.getElementById('disc-active-lbl').textContent='✓ '+activeDiscount.code+' — −'+activeDiscount.pct+'% aplicado';
+    document.getElementById('disc-input').value='';
+  } else {
+    document.getElementById('disc-active-row').classList.remove('show');
+  }
+}
+function closeDisc(){ document.getElementById('disc-overlay').classList.remove('open'); }
+function handleOverlay(e){ if(e.target.id==='disc-overlay') closeDisc(); }
+
+function applyDisc(){
+  const code = document.getElementById('disc-input').value.trim().toUpperCase();
+  const msg = document.getElementById('disc-msg');
+  if(!code){ msg.className='disc-msg err'; msg.textContent='Ingresá un código.'; return; }
+  const found = CODES[code];
+  if(found){
+    activeDiscount = { code, ...found };
+    msg.className='disc-msg ok';
+    msg.textContent='¡Código aplicado con éxito! −'+found.pct+'%';
+    document.getElementById('disc-btn').classList.add('active-code');
+    document.getElementById('disc-active-row').classList.add('show');
+    document.getElementById('disc-active-lbl').textContent='✓ '+code+' — −'+found.pct+'% aplicado';
+    updateDiscBanner();
+    renderSvcs();
+    updateBar();
+    setTimeout(closeDisc, 1200);
+  } else {
+    msg.className='disc-msg err';
+    msg.textContent='Código no válido. Verificá e intentá nuevamente.';
+  }
+}
+
+function removeDisc(){
+  activeDiscount = null;
+  document.getElementById('disc-btn').classList.remove('active-code');
+  document.getElementById('disc-active-row').classList.remove('show');
+  document.getElementById('disc-msg').textContent='';
+  updateDiscBanner();
+  renderSvcs();
+  updateBar();
+  closeDisc();
+}
+
+function updateDiscBanner(){
+  const b = document.getElementById('disc-banner');
+  if(activeDiscount){
+    b.classList.add('show');
+    document.getElementById('disc-banner-txt').textContent='Cupón '+activeDiscount.code+' activo en tu carrito:';
+    document.getElementById('disc-banner-pct').textContent='−'+activeDiscount.pct+'%';
+  } else {
+    b.classList.remove('show');
+  }
+}
+
+function finalPrice(base){
+  return activeDiscount ? Math.round(base * (1 - activeDiscount.pct / 100)) : base;
+}
+
+function fmt(num) {
+  return num.toLocaleString('es-AR');
+}
+
+/* BASE DE DATOS ARGENTINA */
+const SVCS=[
+  {name:'Netflix',      desc:'Series, películas y documentales en HD/4K', cat:'streaming',
+   bg:'#E50914',  logoTxt:'N',   ar:{1:7500,2:12900}},
+  {name:'Disney+',     desc:'Películas, series, deportes en vivo y canales',   cat:'streaming',
+   bg:'#113CCF',  logoTxt:'D+',  ar:{1:6500,2:12000}},
+  {name:'Max',         desc:'Producciones de HBO, realities y cine premium', cat:'streaming',
+   bg:'#0029FF',  logoTxt:'max', ar:{1:4500,2:8000}},
+  {name:'Prime Video',  desc:'Series exclusivas de Amazon y catálogo premium', cat:'streaming',
+   bg:'#00A8E1',  logoTxt:'PV',  ar:{1:4500,2:8000}},
+  {name:'Universal+', desc:'Canales premium y estrenos directos del cine', cat:'streaming',
+   bg:'#0057A8',  logoTxt:'U+',  ar:{1:4500,2:8000}},
+  {name:'Apple TV+',  desc:'Producciones originales de nivel internacional', cat:'streaming',
+   bg:'#1C1C1E',  logoTxt:'TV+', ar:{1:4500,2:8000}},
+  {name:'ViX Premium',desc:'Novelas, series y fútbol latino en español', cat:'streaming',
+   bg:'#0050B3',  logoTxt:'ViX', ar:{1:4500,2:8000}},
+  {name:'YouTube',    desc:'Música y videos libres de anuncios de fondo',  cat:'streaming',
+   bg:'#FF0000',  logoTxt:'▶',   ar:{1:4500}},
+  {name:'Crunchyroll',desc:'La biblioteca de anime más grande del mundo', cat:'anime',
+   bg:'#F47521',  logoTxt:'CR',  ar:{1:4500,2:8000}},
+  {name:'Spotify',    desc:'Tu música favorita sin comerciales sin límites',    cat:'musica',
+   bg:'#1DB954',  logoTxt:'♫',   ar:{1:4500}},
+  {name:'Deezer',     desc:'Reproducción musical en alta fidelidad de sonido', cat:'musica',
+   bg:'#A238FF',  logoTxt:'Dz',  ar:{1:4500,2:8000}},
+  {name:'ChatGPT+',   desc:'Acceso completo a GPT-4o y generación visual', cat:'ia',
+   bg:'#10A37F',  logoTxt:'AI',  ar:{1:8000}},
+  {name:'Canva Pro',  desc:'Plantillas y herramientas avanzadas de diseño',     cat:'ia',
+   bg:'#7D2AE8',  logoTxt:'Ca',  ar:{1:5500}},
+  {name:'Gemini Plus',desc:'Inteligencia avanzada y razonamiento de Google', cat:'ia',
+   bg:'#1A73E8',  logoTxt:'Ge',  ar:{1:7900}},
+  {name:'Grok',       desc:'Asistente inteligente integrado con datos de X', cat:'ia',
+   bg:'#1C1C1C',  logoTxt:'Gk',  ar:{1:7900}},
+  {name:'CapCut Pro', desc:'Filtros y transiciones de video profesionales', cat:'ia',
+   bg:'#000000',  logoTxt:'CC',  ar:{1:7900}},
+  {name:'Microsoft 365',desc:'Aplicaciones de oficina completas en la nube', cat:'ia',
+   bg:'#0078D4',  logoTxt:'M',   ar:{1:5000}},
+  {name:'Perplexity', desc:'Buscador inteligente con referencias directas', cat:'ia',
+   bg:'#20B2AA',  logoTxt:'Px',  ar:{1:2500}},
+  {name:'Adobe CC',   desc:'Suite creativa: Photoshop, Illustrator y más', cat:'ia',
+   bg:'#FF0000',  logoTxt:'Ae',  ar:{1:9990}},
+];
+
+/* PRUEBAS SOCIALES */
+const WA=[
+  {n:"Camila D.",   loc:"Mendoza, AR",        t:"Súper amable la atención, me pasaron los datos de Max enseguida y funciona perfecto 💕", ago:"hace 3 min"},
+  {n:"Martina V.",  loc:"Buenos Aires, AR",   t:"Es el tercer mes que renuevo Spotify con las chicas, súper recomendadas y seguras.", ago:"hace 11 min"},
+  {n:"Lara P.",     loc:"Córdoba, AR",        t:"Me salvé con el combo de Canva y Netflix, re económico y la activación fue al toque! ✨", ago:"hace 19 min"},
+  {n:"Paula F.",    loc:"Salta, AR",          t:"Excelente soporte, me costaba configurar la tele pero me ayudaron re rápido por acá.", ago:"hace 26 min"},
+];
+const REVS=[
+  {n:"Camila D.",   loc:"Mendoza, AR",        s:5, t:"Atención divina y súper rápida. Max activado en minutos."},
+  {n:"Martina V.",  loc:"Buenos Aires, AR",   s:5, t:"Súper seguras. Mantengo la misma cuenta de Spotify sin perder mis playlists."},
+  {n:"Lara P.",     loc:"Córdoba, AR",        s:5, t:"El combo de Canva y Netflix es genial. Ahorro un montón todos los meses."},
+  {n:"Paula F.",    loc:"Salta, AR",          s:5, t:"Soporte de diez. Me explicaron súper bien cómo ponerlo en mi Smart TV."},
+  {n:"Julieta B.",  loc:"Santa Fe, AR",       s:5, t:"Contraté Netflix y Disney. Perfiles impecables y sin caídas."},
+  {n:"Agustina M.", loc:"La Plata, AR",       s:5, t:"Cuentas re estables. Ya llevo medio año con ellas y cero dramas. Las elijo siempre!"},
+];
+const FAQS=[
+  {q:"¿Cuánto tardan en enviarme los datos?",a:"Una vez confirmado el pago, te mandamos las credenciales directamente por WhatsApp en un plazo de 5 a 10 minutos. Es súper directo y fácil."},
+  {q:"¿Se puede mantener el mismo perfil al renovar?",a:"¡Sí, claro! Si realizás la renovación antes del vencimiento de tu mes, conservás tu mismo perfil y todo tu historial de reproducción intacto."},
+  {q:"¿Las cuentas de streaming son originales?",a:"Sí, trabajamos exclusivamente con perfiles oficiales y estables. Te garantizamos el acceso durante todo el período contratado sin inconvenientes."},
+  {q:"¿En qué dispositivos puedo ver?",a:"Podés usar las aplicaciones en cualquier dispositivo compatible: Smart TV, celulares, tablets, computadoras o consolas de videojuegos."},
+  {q:"¿Cómo funciona la garantía del servicio?",a:"Si llega a surgir algún detalle con tu cuenta, nos escribís por WhatsApp. Nuestro soporte técnico lo soluciona en el día o te devolvemos tu dinero."},
+];
+
+let selected={}, waIdx=0, activeCat='all';
+
+function toggleOpt(name,qty){
+  selected[name]===qty ? delete selected[name] : selected[name]=qty;
+  renderSvcs(); updateBar();
+}
+function clearAll(){ selected={}; renderSvcs(); updateBar(); }
+
+function filterCat(cat,btn){
+  activeCat=cat;
+  document.querySelectorAll('.cat-f').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSvcs();
+}
+
+function renderSvcs(){
+  const list = activeCat==='all' ? SVCS : SVCS.filter(s=>s.cat===activeCat);
+  document.getElementById('svcs').innerHTML = list.map(s=>{
+    const hasSel = selected[s.name]!==undefined;
+    const fs = s.logoTxt.length<=2?'22px':s.logoTxt.length===3?'16px':'13px';
+    const opts = Object.entries(s.ar).map(([q,baseP])=>{
+      const on = selected[s.name]==q;
+      const p = finalPrice(baseP);
+      const showOrig = activeDiscount && p!==baseP;
+      return `<button class="opt${on?' on':''}" onclick="toggleOpt('${s.name}',${q})"
+        style="${on?`border-color:${s.bg};background:#fff;`:''}">
+        <div class="opt-l">
+          <div class="opt-plan">${q==1?'1 Pantalla Acceso':'Familia '+q+' Pantallas'}</div>
+          <div class="opt-sub" style="${on?'color:#75455F;':''}">${q==1?'Uso en 1 dispositivo':'Uso simultáneo'}</div>
+        </div>
+        <div class="opt-r">
+          ${showOrig?`<span class="opt-price-orig">${activeDiscount?'$'+fmt(baseP):''}</span>`:''}
+          <span class="opt-price" style="${on?`color:${s.bg};`:''}">$${fmt(p)}</span>
+          <div class="opt-chk" style="transform:scale(${on?1:0});background:${s.bg}">✓</div>
+        </div>
+      </button>`;
+    }).join('');
+    return `<div class="svc${hasSel?' on':''}" style="${hasSel?`border-color:#FFFFFF;box-shadow:0 6px 20px rgba(255,255,255,.2);`:''}">
+      <div style="height:3px;background:${s.bg};"></div>
+      <div class="svc-hdr">
+        <div class="svc-logo-box" style="background:${s.bg};box-shadow:0 4px 12px ${s.bg}40">
+          <div class="svc-logo-txt" style="font-size:${fs}">${s.logoTxt}</div>
+        </div>
+        <div>
+          <div class="svc-nm">${s.name}</div>
+          <div class="svc-desc">${s.desc}</div>
+        </div>
+      </div>
+      <div class="svc-opts">${opts}</div>
+    </div>`;
+  }).join('');
+}
+
+function updateBar(){
+  const bar=document.getElementById('bar'), items=document.getElementById('bar-items'), waf=document.getElementById('waf');
+  const keys=Object.keys(selected);
+  if(!keys.length){bar.classList.remove('show');waf.classList.remove('hide');return;}
+  let total=0;
+  items.innerHTML=keys.map(k=>{
+    const s=SVCS.find(x=>x.name===k);
+    const baseP=s.ar[selected[k]];
+    const p=finalPrice(baseP); total+=p;
+    return `<div class="bar-row"><span class="bar-nm">${s.name} · Perfil ${selected[k]}P</span><span class="bar-pr">$${fmt(p)}</span></div>`;
+  }).join('');
+  document.getElementById('tot').textContent='$'+fmt(total);
+  bar.classList.add('show'); waf.classList.add('hide');
+}
+
+function sendWA(){
+  const keys=Object.keys(selected); if(!keys.length)return;
+  let msg='¡Hola GISSE ONLINE! Me interesa contratar este pedido:\n\n',total=0;
+  keys.forEach(k=>{
+    const s=SVCS.find(x=>x.name===k);
+    const baseP=s.ar[selected[k]];
+    const p=finalPrice(baseP); total+=p;
+    msg+=`• ${s.name} — Perfil de ${selected[k]} pantalla${selected[k]>1?'s':''} → $${fmt(p)} ARS\n`;
+  });
+  if(activeDiscount) msg+=`\n🏷️ Cupón: ${activeDiscount.code} (−${activeDiscount.pct}%)`;
+  msg+=`\n💰 Total: $${fmt(total)} ARS\n🌍 Región: Argentina 🇦🇷`;
+  window.open('https://wa.me/5492644650239?text='+encodeURIComponent(msg));
+}
+
+function initDots(){ document.getElementById('wa-dots').innerHTML=WA.map((_,i)=>`<div class="wdot${i===0?' on':''}"></div>`).join(''); }
+function cycleWA(){
+  const r=WA[waIdx];
+  document.getElementById('wa-hdr').innerHTML=`<div class="wa-info"><div class="wa-av" style="background:linear-gradient(135deg,#D11D75,#FF8CBA)">${r.n[0]}</div><div><div class="wa-nm">${r.n}</div><div class="wa-loc">📍 ${r.loc}</div></div></div><div class="wa-online"><div class="wa-online-dot"></div>activo</div>`;
+  document.getElementById('wa-body').innerHTML=`<div class="wa-bubble">${r.t}</div><div class="wa-time">${r.ago}</div>`;
+  document.querySelectorAll('.wdot').forEach((d,i)=>d.classList.toggle('on',i===waIdx));
+  waIdx=(waIdx+1)%WA.length;
+}
+
+function renderRevs(){
+  document.getElementById('revs').innerHTML=REVS.map(r=>`<div class="rev"><div class="rev-top"><div class="rev-av" style="background:linear-gradient(135deg,#D11D75,#FF8CBA)">${r.n[0]}</div><div><div class="rev-nm">${r.n}</div><div class="rev-loc">📍 ${r.loc}</div></div></div><div class="rev-stars">${'★'.repeat(r.s)}</div><div class="rev-txt">${r.t}</div><div class="rev-badge">Compra verificada ✦</div></div>`).join('');
+}
+
+function renderFAQs(){
+  document.getElementById('faqs').innerHTML=FAQS.map((f,i)=>`<div class="faq" id="faq${i}"><button class="faq-q" onclick="toggleFAQ(${i})"><span>${f.q}</span><div class="faq-ico">+</div></button><div class="faq-a"><div class="faq-a-txt">${f.a}</div></div></div>`).join('');
+}
+function toggleFAQ(i){
+  const el=document.getElementById('faq'+i),was=el.classList.contains('open');
+  document.querySelectorAll('.faq').forEach(f=>f.classList.remove('open'));
+  if(!was)el.classList.add('open');
+}
+
+function animCount(el,target,suffix){
+  let v=0;const go=()=>{v+=Math.max(1,Math.ceil(target/28));if(v>=target)el.textContent=target+suffix;else{el.textContent=v+suffix;requestAnimationFrame(go);}};go();
+}
+setTimeout(()=>{
+  animCount(document.getElementById('s1'),150,'+');
+  animCount(document.getElementById('s2'),19,'');
+  animCount(document.getElementById('s3'),100,'%');
+},500);
+
+document.querySelectorAll('.rv').forEach(el=>{new IntersectionObserver(([e])=>{if(e.isIntersecting)el.classList.add('in');},{threshold:.05}).observe(el);});
+
+function toggleTheme(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+}
+
+const tkTxt=' ⚡ ACTIVACIÓN RÁPIDA  ·  GARANTÍA DE MES  ·  ASISTENCIA CONTINUA  ·  ARGENTINA 🇦🇷  · ';
+document.getElementById('ticker').innerHTML=`<span>${tkTxt.repeat(8)}</span><span>${tkTxt.repeat(8)}</span>`;
+
+initDots(); cycleWA(); renderRevs(); renderFAQs(); renderSvcs();
+setInterval(cycleWA,4500);
+</script>
+</body>
+</html>
